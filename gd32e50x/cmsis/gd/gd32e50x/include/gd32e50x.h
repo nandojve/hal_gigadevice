@@ -470,7 +470,9 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrStatus;
 #define REG32(addr)                  (*(volatile uint32_t *)(uint32_t)(addr))
 #define REG16(addr)                  (*(volatile uint16_t *)(uint32_t)(addr))
 #define REG8(addr)                   (*(volatile uint8_t *)(uint32_t)(addr))
+#ifndef BIT
 #define BIT(x)                       ((uint32_t)((uint32_t)0x01U<<(x)))
+#endif
 #define BITS(start, end)             ((0xFFFFFFFFUL << (start)) & (0xFFFFFFFFUL >> (31U - (uint32_t)(end)))) 
 #define GET_BITS(regval, start, end) (((regval) & BITS((start),(end))) >> (start))
 
@@ -526,7 +528,14 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrStatus;
 #define OB_BASE               ((uint32_t)0x1FFFF800U)       /*!< OB base address */
 #define DBG_BASE              ((uint32_t)0xE0044000U)       /*!< DBG base address */
 #define SQPI_BASE             ((uint32_t)0xA0001000U)       /*!< SQPI base address */
+
+/* define marco USE_STDPERIPH_DRIVER */
+#if !defined  USE_STDPERIPH_DRIVER
+#define USE_STDPERIPH_DRIVER
+#endif
+#ifdef USE_STDPERIPH_DRIVER
 #include "gd32e50x_libopt.h"
+#endif /* USE_STDPERIPH_DRIVER */
 
 #ifdef __cplusplus
 }
